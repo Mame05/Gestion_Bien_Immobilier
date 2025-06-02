@@ -10,6 +10,10 @@ class AgenceController extends Controller
     /**
      * Display a listing of the resource.
      */
+     public function dashboard()
+    {
+        return view('agence.dashboard');
+    }
     public function index()
     {
         //
