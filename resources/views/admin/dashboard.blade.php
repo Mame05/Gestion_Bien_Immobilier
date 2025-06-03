@@ -1,4 +1,7 @@
-    <div class="container">
-        <h1>Bienvenue Admin</h1>
-        <p>Voici votre tableau de bord.</p>
-    </div>
+@extends('admin.layout')
+
+@section('content')
+    <h1>Tableau de bord de l’Administrateur</h1>
+    <p>Bienvenue sur votre interface de gestion.</p>
+@endsection
+
