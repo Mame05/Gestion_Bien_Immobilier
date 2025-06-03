@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Agence;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class AgenceController extends Controller
 {
@@ -36,20 +38,36 @@ class AgenceController extends Controller
     public function store(Request $request)
     {
         // Validation des données
-        $validated = $request->validate([
+        $request->validate([
             'nom' => 'required|string|max:255',
             'telephone' => 'required|string|max:20',
             'email' => 'required|email|unique:agences,email',
             'adresse' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id', // Le user lié (souvent une agence)
         ]);
 
-        // Création de l'agence
-        Agence::create($validated);
+        // Génération d'un mot de passe aléatoire
+        $motDePasse = Str::random(10);
 
-        // Redirection avec message de succès
-        return redirect()->route('admin.agences.index')->with('success', 'Agence créée avec succès.');
-        }
+        // Création de l'utilisateur associé
+        $user = User::create([
+            'nom' => $request->nom,
+            'email' => $request->email,
+            'password' => Hash::make($motDePasse),
+            'role' => 'agence',
+        ]);
+
+        // Création de l'agence liée à l'utilisateur
+        Agence::create([
+            'nom' => $request->nom,
+            'telephone' => $request->telephone,
+            'email' => $request->email,
+            'adresse' => $request->adresse,
+            'user_id' => $user->id,
+        ]);
+
+        // (Optionnel) : Afficher le mot de passe ou l'envoyer par mail
+        return redirect()->route('admin.agences.index')->with('success', "Agence ajoutée. Mot de passe du compte agence : $motDePasse");
+    }
 
     /**
      * Display the specified resource.
