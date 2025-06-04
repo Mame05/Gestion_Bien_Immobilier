@@ -45,9 +45,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [AgenceController::class, 'index'])->name('index');
         Route::get('/create', [AgenceController::class, 'create'])->name('create');
         Route::post('/', [AgenceController::class, 'store'])->name('store');
-        Route::get('/agences/{agence}/edit', [AgenceController::class, 'edit'])->name('admin.agences.edit');
-        Route::put('/agences/{agence}', [AgenceController::class, 'update'])->name('admin.agences.update');
-        Route::delete('/agences/{agence}', [AgenceController::class, 'destroy'])->name('admin.agences.destroy');
+        Route::get('/{agence}/edit', [AgenceController::class, 'edit'])->name('edit');
+        Route::put('/{agence}', [AgenceController::class, 'update'])->name('update');
+        Route::delete('/{agence}', [AgenceController::class, 'destroy'])->name('destroy');
     });
 
     Route::get('/agence/dashboard', [AgenceController::class, 'dashboard'])->name('agence.dashboard');

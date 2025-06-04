@@ -36,7 +36,7 @@
                     <td>{{ $agence->adresse }}</td>
                     <td>{{ $agence->user->nom ?? 'Non défini' }}</td>
                     <td>
-                        <a href="{{ route('admin.agences.edit', $agence) }}" class="btn btn-warning btn-sm">
+                        <a href="{{ route('admin.agences.edit', $agence->id) }}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
                         <form action="{{ route('admin.agences.destroy', $agence) }}" method="POST" class="d-inline"

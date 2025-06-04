@@ -3,6 +3,10 @@
 @section('content')
 <h2>Créer une nouvelle agence</h2>
 
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>@foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach</ul>
@@ -30,15 +34,6 @@
     <div class="mb-3">
         <label>Adresse</label>
         <input type="text" name="adresse" class="form-control" required>
-    </div>
-
-    <div class="mb-3">
-        <label>Utilisateur associé (user_id)</label>
-        <select name="user_id" class="form-control" required>
-            @foreach ($users as $user)
-                <option value="{{ $user->id }}">{{ $user->nom }} ({{ $user->email }})</option>
-            @endforeach
-        </select>
     </div>
 
     <button type="submit" class="btn btn-primary">Créer</button>

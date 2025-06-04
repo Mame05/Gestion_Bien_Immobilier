@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agence;
 use App\Models\User;
+use App\Notifications\AgenceCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -65,8 +66,11 @@ class AgenceController extends Controller
             'user_id' => $user->id,
         ]);
 
-        // (Optionnel) : Afficher le mot de passe ou l'envoyer par mail
-        return redirect()->route('admin.agences.index')->with('success', "Agence ajoutée. Mot de passe du compte agence : $motDePasse");
+        // 👉 Envoyer la notification avec le mot de passe
+        $user->notify(new AgenceCreated($motDePasse));
+
+        // Message succès
+        return redirect()->route('admin.agences.index')->with('success', "Agence créée avec succs et identifiants envoyés.");
     }
 
     /**
